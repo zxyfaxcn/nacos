@@ -1,0 +1,44 @@
+{
+  "name": "zxyfaxcn/nacos",
+  "license": "Apache-2.0",
+  "description": "nacos php sdk with hyperf framework",
+  "type": "library",
+  "authors": [
+    {
+      "name": "zxyfaxcn",
+      "email": "zxyfaxcn@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Hyperf\\Nacos\\": "./src"
+    },
+    "files": [
+      "./src/Helper/func.php"
+    ]
+  },
+  "require": {
+    "hyperf/config": "^1.1",
+    "hyperf/event": "^1.1",
+    "hyperf/framework": "^1.1",
+    "hyperf/guzzle": "^1.1",
+    "hyperf/http-server": "^1.1",
+    "hyperf/logger": "^1.1",
+    "hyperf/process": "^1.1",
+    "hyperf/utils": "^1.1",
+    "ext-json": "*",
+    "ext-yaml": "*",
+    "ext-simplexml": "*"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^5.0"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "extra": {
+    "hyperf": {
+      "config": "Hyperf\\Nacos\\ConfigProvider"
+    }
+  }
+}
