@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
+
 namespace Hyperf\Nacos\Process;
 
 use Hyperf\Logger\LoggerFactory;
@@ -30,7 +31,6 @@ class InstanceBeatProcess extends AbstractProcess
                 $logger->error("nacos send beat fail!", compact('instance'));
             }
         }
-
     }
 
     public function isEnable(): bool

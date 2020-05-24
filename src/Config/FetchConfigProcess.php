@@ -1,9 +1,11 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
+
 namespace Hyperf\Nacos\Config;
 
 use Hyperf\Nacos\Util\RemoteConfig;
 use Hyperf\Process\AbstractProcess;
+use Hyperf\Process\ProcessCollector;
 use Swoole\Server;
 
 class FetchConfigProcess extends AbstractProcess
@@ -32,6 +34,15 @@ class FetchConfigProcess extends AbstractProcess
                 for ($workerId = 0; $workerId <= $workerCount; ++$workerId) {
                     $this->server->sendMessage($pipe_message, $workerId);
                 }
+
+                $string = serialize($pipe_message);
+
+                $processes = ProcessCollector::all();
+                /** @var \Swoole\Process $process */
+                foreach ($processes as $process) {
+                    $process->exportSocket()->send($string);
+                }
+
                 $cache = $remote_config;
             }
             sleep(config('nacos.configReloadInterval', 3));

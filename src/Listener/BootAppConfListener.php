@@ -1,4 +1,5 @@
 <?php
+
 namespace Hyperf\Nacos\Listener;
 
 use Hyperf\Contract\ConfigInterface;
