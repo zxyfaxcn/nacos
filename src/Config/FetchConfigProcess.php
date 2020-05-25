@@ -51,6 +51,6 @@ class FetchConfigProcess extends AbstractProcess
 
     public function isEnable(): bool
     {
-        return (bool)config('nacos.configReloadInterval', false);
+        return (bool)config('nacos.configReloadEnable', false);
     }
 }

@@ -6,7 +6,7 @@
  */
 
 return [
-    'enable' => true, // 是否开启自动注册 默认false
+    'enable' => false, // 是否开启自动注册 默认false
     'deleteServiceWhenShutdown' => true, // 是否开启自动注销 默认false
     'host' => '127.0.0.1',
     'port' => '8848',
@@ -29,11 +29,12 @@ return [
         'healthy' => true,
         'cluster' => 'DEFAULT',
         'ephemeral' => true,
-        'beatEnable' => true,
+        'beatEnable' => false,// 心跳
         'beatInterval' => 5,// s
     ],
-    // 配置刷新间隔 s
-    'configReloadInterval' => 3,
+    // 配置刷新
+    'configReloadEnable' => false,
+    'configReloadInterval' => 3,// 间隔 s
     // 远程配置合并节点, 默认 config 根节点
     'configAppendNode' => 'nacos_conf',
     'listenerConfig' => [
