@@ -59,7 +59,7 @@ class Guzzle
             if (is_json_str($content)) {
                 $content = json_decode($content, true);
             }
-            $logger->get('api_request')->info($api, [
+            $logger->get('api_request')->debug($api, [
                 'method' => $method,
                 'code' => $code,
                 'options' => $options,

@@ -40,7 +40,7 @@ class BootAppConfListener implements ListenerInterface
         if (!$exist && !$nacos_service->create($service)) {
             throw new \Exception("nacos register service fail: {$service}");
         } else {
-            $logger->info('nacos register service success!', compact('service'));
+            $logger->debug('nacos register service success!', compact('service'));
         }
 
         // 注册实例
@@ -51,7 +51,7 @@ class BootAppConfListener implements ListenerInterface
         if (!$nacos_instance->register($instance)) {
             throw new \Exception("nacos register instance fail: {$instance}");
         } else {
-            $logger->info('nacos register instance success!', compact('instance'));
+            $logger->debug('nacos register instance success!', compact('instance'));
         }
 
         $remote_config = RemoteConfig::get();

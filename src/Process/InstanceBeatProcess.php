@@ -26,7 +26,7 @@ class InstanceBeatProcess extends AbstractProcess
             sleep(config('nacos.client.beatInterval', 5));
             $send = $nacos_instance->beat($service, $instance);
             if ($send) {
-                $logger->info('nacos send beat success.', compact('instance'));
+                $logger->debug('nacos send beat success.', compact('instance'));
             } else {
                 $logger->error("nacos send beat fail!", compact('instance'));
             }
