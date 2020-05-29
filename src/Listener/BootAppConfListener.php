@@ -48,6 +48,9 @@ class BootAppConfListener implements ListenerInterface
         $instance = make(ThisInstance::class);
         /** @var NacosInstance $nacos_instance */
         $nacos_instance = make(NacosInstance::class);
+        $instance->enabled = $instance->enabled === true ? "true" : 'false';
+        $instance->ephemeral = $instance->ephemeral === true ? "true" : 'false';
+        $instance->healthy = $instance->healthy === true ? "true" : 'false';
         if (!$nacos_instance->register($instance)) {
             throw new \Exception("nacos register instance fail: {$instance}");
         } else {

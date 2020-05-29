@@ -28,7 +28,8 @@
     "hyperf/utils": "^1.1",
     "ext-json": "*",
     "ext-yaml": "*",
-    "ext-simplexml": "*"
+    "ext-simplexml": "*",
+    "ext-libxml": "*"
   },
   "require-dev": {
     "symfony/var-dumper": "^5.0"

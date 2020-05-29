@@ -33,7 +33,7 @@ function xml2array($xml_string)
     if (strpos($xml_string, '<') === false) {
         return [];
     }
-
+    libxml_disable_entity_loader(true);
     return (array)@simplexml_load_string($xml_string, 'SimpleXMLElement', LIBXML_NOCDATA);
 }
 

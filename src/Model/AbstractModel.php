@@ -38,7 +38,7 @@ abstract class AbstractModel
 
     public function toJson()
     {
-        return json_encode($this->getParams());
+        return json_encode($this->getParams(), JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT);
     }
 
     public function toArray()

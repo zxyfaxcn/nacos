@@ -35,7 +35,9 @@ class Guzzle
             'timeout' => $headers['timeout'] ?? 10.0,
         ]);
         $method = strtoupper($method);
-        $options = [];
+        $options = [
+            'http_errors' => false
+        ];
         $headers['charset'] = $headers['charset'] ?? 'UTF-8';
 
         $options['headers'] = $headers;
