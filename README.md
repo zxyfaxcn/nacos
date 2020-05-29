@@ -150,4 +150,4 @@ return [
 
 #### 依赖扩展
 
-`ext-json`, `ext-yaml`, `ext-simplexml`
+`ext-json`, `ext-yaml`, `ext-simplexml`, `ext-libxml`
