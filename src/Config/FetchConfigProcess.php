@@ -6,6 +6,7 @@ namespace Hyperf\Nacos\Config;
 use Hyperf\Nacos\Util\RemoteConfig;
 use Hyperf\Process\AbstractProcess;
 use Hyperf\Process\ProcessCollector;
+use Swoole\Coroutine\Server as CoServer;
 use Swoole\Server;
 
 class FetchConfigProcess extends AbstractProcess
@@ -13,11 +14,11 @@ class FetchConfigProcess extends AbstractProcess
     public $name = 'nacos-fetch-config';
 
     /**
-     * @var Server
+     * @var CoServer|Server
      */
     private $server;
 
-    public function bind(Server $server): void
+    public function bind($server): void
     {
         $this->server = $server;
         parent::bind($server);
