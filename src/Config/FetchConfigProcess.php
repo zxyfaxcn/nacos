@@ -49,7 +49,7 @@ class FetchConfigProcess extends AbstractProcess
         }
     }
 
-    public function isEnable(): bool
+    public function isEnable($server): bool
     {
         return (bool)config('nacos.configReloadEnable', false);
     }
