@@ -33,7 +33,7 @@ class InstanceBeatProcess extends AbstractProcess
         }
     }
 
-    public function isEnable(): bool
+    public function isEnable($server): bool
     {
         return config('nacos.client.beatEnable', false);
     }
