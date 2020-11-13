@@ -9,6 +9,7 @@ use Hyperf\Nacos\Lib\NacosInstance;
 use Hyperf\Nacos\Lib\NacosService;
 use Hyperf\Nacos\Model\ServiceModel;
 use Hyperf\Nacos\ThisInstance;
+use Hyperf\Server\Event\CoroutineServerStop;
 
 class OnShutdownListener implements ListenerInterface
 {
@@ -16,6 +17,7 @@ class OnShutdownListener implements ListenerInterface
     {
         return [
             OnShutdown::class,
+            CoroutineServerStop::class
         ];
     }
 

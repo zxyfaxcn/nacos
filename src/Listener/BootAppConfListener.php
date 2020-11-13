@@ -5,19 +5,22 @@ namespace Hyperf\Nacos\Listener;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Framework\Event\BootApplication;
+use Hyperf\Framework\Event\MainWorkerStart;
 use Hyperf\Logger\LoggerFactory;
 use Hyperf\Nacos\Lib\NacosInstance;
 use Hyperf\Nacos\Lib\NacosService;
 use Hyperf\Nacos\Model\ServiceModel;
 use Hyperf\Nacos\ThisInstance;
 use Hyperf\Nacos\Util\RemoteConfig;
+use Hyperf\Server\Event\CoroutineServerStart;
 
 class BootAppConfListener implements ListenerInterface
 {
     public function listen(): array
     {
         return [
-            BootApplication::class,
+            MainWorkerStart::class,
+            CoroutineServerStart::class
         ];
     }
 

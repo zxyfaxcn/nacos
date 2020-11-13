@@ -8,6 +8,7 @@ use Hyperf\Nacos\Lib\NacosInstance;
 use Hyperf\Nacos\ThisInstance;
 use Hyperf\Nacos\ThisService;
 use Hyperf\Process\AbstractProcess;
+use Hyperf\Process\ProcessManager;
 
 class InstanceBeatProcess extends AbstractProcess
 {
@@ -22,7 +23,7 @@ class InstanceBeatProcess extends AbstractProcess
         $service = make(ThisService::class);
 
         $logger = container(LoggerFactory::class)->get('nacos');
-        while (true) {
+        while (ProcessManager::isRunning()) {
             sleep(config('nacos.client.beatInterval', 5));
             $send = $nacos_instance->beat($service, $instance);
             if ($send) {
