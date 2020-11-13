@@ -3,7 +3,8 @@
 namespace Hyperf\Nacos\Util;
 
 use GuzzleHttp\Client;
-use Hyperf\Guzzle\ClientFactory;
+use Hyperf\Guzzle\RetryMiddleware;
+use Hyperf\Guzzle\HandlerStackFactory;
 use Hyperf\Logger\LoggerFactory;
 
 class Guzzle
@@ -15,8 +16,14 @@ class Guzzle
      */
     public static function create(array $config = [])
     {
-        // 如果在协程环境下创建，则会自动使用协程版的 Handler，非协程环境下无改变
-        return container(ClientFactory::class)->create($config);
+        $factory = new HandlerStackFactory();
+        $handlerStack = $factory->create([], ['retry' => [RetryMiddleware::class, [3, 10]]]);
+        return make(Client::class, [
+            'config' => array_merge([
+                'handler' => $handlerStack,
+                'verify' => false,
+            ], $config),
+        ]);
     }
 
     public static function get($url, $query = [], $header = [])
