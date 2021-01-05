@@ -12,7 +12,7 @@ use Hyperf\Nacos\Lib\NacosService;
 use Hyperf\Nacos\Model\ServiceModel;
 use Hyperf\Nacos\ThisInstance;
 use Hyperf\Nacos\Util\RemoteConfig;
-use Hyperf\Server\Event\CoroutineServerStart;
+use Hyperf\Server\Event\MainCoroutineServerStart;
 
 class BootAppConfListener implements ListenerInterface
 {
@@ -20,7 +20,7 @@ class BootAppConfListener implements ListenerInterface
     {
         return [
             MainWorkerStart::class,
-            CoroutineServerStart::class
+            MainCoroutineServerStart::class
         ];
     }
 
