@@ -108,7 +108,12 @@ class NacosInstance extends AbstractNacos
             return $item !== null;
         });
         $instanceModel->cluster = $instanceModel->clusterName;
-        $instanceModel->scheduled = true;
+        $instanceModel->scheduled = 'true';
+        foreach (['enabled', 'ephemeral', 'healthy'] as $field) {
+            if (is_bool($instanceModel->{$field})) {
+                $instanceModel->{$field} = $instanceModel->{$field} ? 'true' : 'false';
+            }
+        }
         $params['beat'] = $instanceModel->toJson();
         $params_str = http_build_query($params);
 
