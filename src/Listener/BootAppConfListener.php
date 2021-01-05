@@ -34,38 +34,42 @@ class BootAppConfListener implements ListenerInterface
         }
         $logger = container(LoggerFactory::class)->get('nacos');
 
-        // 注册服务
-        /** @var NacosService $nacos_service */
-        $nacos_service = container(NacosService::class);
-        /** @var ServiceModel $service */
-        $service = make(ServiceModel::class, ['config' => config('nacos.service')]);
-        $exist = $nacos_service->detail($service);
-        if (!$exist && !$nacos_service->create($service)) {
-            throw new \Exception("nacos register service fail: {$service}");
-        } else {
-            $logger->debug('nacos register service success!', compact('service'));
-        }
+        try {
+            // 注册服务
+            /** @var NacosService $nacos_service */
+            $nacos_service = container(NacosService::class);
+            /** @var ServiceModel $service */
+            $service = make(ServiceModel::class, ['config' => config('nacos.service')]);
+            $exist = $nacos_service->detail($service);
+            if (!$exist && !$nacos_service->create($service)) {
+                throw new \Exception("nacos register service fail: {$service}");
+            } else {
+                $logger->info('nacos register service success!', compact('service'));
+            }
 
-        // 注册实例
-        /** @var ThisInstance $instance */
-        $instance = make(ThisInstance::class);
-        /** @var NacosInstance $nacos_instance */
-        $nacos_instance = make(NacosInstance::class);
-        $instance->enabled = $instance->enabled === true ? "true" : 'false';
-        $instance->ephemeral = $instance->ephemeral === true ? "true" : 'false';
-        $instance->healthy = $instance->healthy === true ? "true" : 'false';
-        if (!$nacos_instance->register($instance)) {
-            throw new \Exception("nacos register instance fail: {$instance}");
-        } else {
-            $logger->debug('nacos register instance success!', compact('instance'));
-        }
+            // 注册实例
+            /** @var ThisInstance $instance */
+            $instance = make(ThisInstance::class);
+            /** @var NacosInstance $nacos_instance */
+            $nacos_instance = make(NacosInstance::class);
+            $instance->enabled = $instance->enabled === true ? "true" : 'false';
+            $instance->ephemeral = $instance->ephemeral === true ? "true" : 'false';
+            $instance->healthy = $instance->healthy === true ? "true" : 'false';
+            if (!$nacos_instance->register($instance)) {
+                throw new \Exception("nacos register instance fail: {$instance}");
+            } else {
+                $logger->info('nacos register instance success!', compact('instance'));
+            }
 
-        $remote_config = RemoteConfig::get();
-        /** @var \Hyperf\Config\Config $config */
-        $config = container(ConfigInterface::class);
-        $append_node = config('nacos.configAppendNode');
-        foreach ($remote_config as $key => $conf) {
-            $config->set($append_node ? $append_node . '.' . $key : $key, $conf);
+            $remote_config = RemoteConfig::get();
+            /** @var \Hyperf\Config\Config $config */
+            $config = container(ConfigInterface::class);
+            $append_node = config('nacos.configAppendNode');
+            foreach ($remote_config as $key => $conf) {
+                $config->set($append_node ? $append_node . '.' . $key : $key, $conf);
+            }
+        } catch (\Throwable $exception) {
+            $logger->critical((string)$exception);
         }
     }
 }
