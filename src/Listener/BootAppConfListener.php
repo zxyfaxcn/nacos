@@ -35,7 +35,6 @@ class BootAppConfListener implements ListenerInterface
         $logger = container(LoggerFactory::class)->get('nacos');
 
         try {
-            // 注册服务
             /** @var NacosService $nacos_service */
             $nacos_service = container(NacosService::class);
             /** @var ServiceModel $service */
@@ -47,14 +46,15 @@ class BootAppConfListener implements ListenerInterface
                 $logger->info('nacos register service success!', compact('service'));
             }
 
-            // 注册实例
             /** @var ThisInstance $instance */
             $instance = make(ThisInstance::class);
             /** @var NacosInstance $nacos_instance */
             $nacos_instance = make(NacosInstance::class);
-            $instance->enabled = $instance->enabled === true ? 'true' : 'false';
-            $instance->ephemeral = $instance->ephemeral === true ? 'true' : 'false';
-            $instance->healthy = $instance->healthy === true ? 'true' : 'false';
+            foreach (['enabled', 'ephemeral', 'healthy'] as $field) {
+                if (is_bool($instance->{$field})) {
+                    $instance->{$field} = $instance->{$field} ? 'true' : 'false';
+                }
+            }
             if (!$nacos_instance->register($instance)) {
                 throw new \Exception("nacos register instance fail: {$instance}");
             } else {
