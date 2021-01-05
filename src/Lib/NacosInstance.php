@@ -103,17 +103,17 @@ class NacosInstance extends AbstractNacos
         $serviceName = $serviceModel->serviceName;
         $groupName = $serviceModel->groupName;
         $namespaceId = $serviceModel->namespaceId;
-        $ephemeral = $instanceModel->ephemeral ? 'true' : 'false';
-        $params = array_filter(compact('serviceName', 'groupName', 'namespaceId', 'ephemeral'), function ($item) {
-            return $item !== null;
-        });
-        $instanceModel->cluster = $instanceModel->clusterName;
-        $instanceModel->scheduled = 'true';
         foreach (['enabled', 'ephemeral', 'healthy'] as $field) {
             if (is_bool($instanceModel->{$field})) {
                 $instanceModel->{$field} = $instanceModel->{$field} ? 'true' : 'false';
             }
         }
+        $ephemeral = $instanceModel->ephemeral;
+        $params = array_filter(compact('serviceName', 'groupName', 'namespaceId', 'ephemeral'), function ($item) {
+            return $item !== null;
+        });
+        $instanceModel->cluster = $instanceModel->clusterName;
+        $instanceModel->scheduled = 'true';
         $params['beat'] = $instanceModel->toJson();
         $params_str = http_build_query($params);
 
