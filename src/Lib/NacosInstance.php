@@ -2,6 +2,7 @@
 
 namespace Hyperf\Nacos\Lib;
 
+use Hyperf\Contract\ConfigInterface;
 use Hyperf\LoadBalancer\Node;
 use Hyperf\LoadBalancer\Random;
 use Hyperf\LoadBalancer\RoundRobin;
@@ -48,13 +49,18 @@ class NacosInstance extends AbstractNacos
 
     public function getOptimal(ServiceModel $serviceModel, array $clusters = [])
     {
-        $list = $this->list($serviceModel, $clusters, true);
+        $config = container(ConfigInterface::class);
+        $list = $config->get('nacos.vendorServices.' . $serviceModel->serviceName, []);
+        if (!$list) {
+            $list = $this->list($serviceModel, $clusters, true);
+            $config->set('nacos.vendorServices.' . $serviceModel->serviceName, $list);
+        }
         $instance = $list['hosts'] ?? [];
         if (!$instance) {
             return false;
         }
         $enabled = array_filter($instance, function ($item) {
-            return $item['enabled'];
+            return $item['enabled'] && $item['healthy'];
         });
 
         $tactics = strtolower(config('nacos.loadBalancer', 'random'));
